@@ -344,12 +344,18 @@ function Flatpickr(element, config) {
 			self.calendarContainer.classList.add(self.config.inline ? "inline" : "static");
 			positionCalendar();
 
+			// Create a "general container" before append
+
+			var container = createElement("div","flatpickr-container flatpicrk-container-"+self.calendarPosition);
+			container.appendChild(self.calendarContainer);
+
+
 			if (self.config.appendTo && self.config.appendTo.nodeType)
-				self.config.appendTo.appendChild(self.calendarContainer);
+				self.config.appendTo.appendChild(container);
 
 			else {
 				self.element.parentNode.insertBefore(
-					self.calendarContainer,
+					container,
 					(self.altInput || self.input).nextSibling
 				);
 			}
@@ -1116,12 +1122,14 @@ function Flatpickr(element, config) {
 			top = (window.pageYOffset - calendarHeight + inputBounds.top) - 2;
 			self.calendarContainer.classList.remove("arrowTop");
 			self.calendarContainer.classList.add("arrowBottom");
+			self.calendarPosition = 'top';
 		}
 
 		else {
 			top = (window.pageYOffset + input.offsetHeight + inputBounds.top) + 2;
 			self.calendarContainer.classList.remove("arrowBottom");
 			self.calendarContainer.classList.add("arrowTop");
+			self.calendarPosition = 'bottom';
 		}
 
 		if (!self.config.static && !self.config.inline) {
